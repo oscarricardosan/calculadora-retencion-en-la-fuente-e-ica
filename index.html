@@ -7,8 +7,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <title>Calculadora</title>
-
+    <script>
+        alert('-1');
+    </script>
     <script type="text/javascript" src="cordova.js"></script>
+    <script>
+        alert('-2');
+    </script>
 
     <!-- JQUERY -->
     <script src="resources/bower_components/jquery/dist/jquery.min.js"></script>
@@ -149,6 +154,7 @@
         </div>
     </div>
     <script type="text/javascript">
+        alert(0);
         var app = new Vue({
             el: '#app',
             data: {
@@ -232,7 +238,9 @@
                 }
             }
         })
+        alert(1);
         $(document).ready(function(){
+            alert(2);
             $('.select2').select2();
             $('.ciius_gravados').change(function(){
                 app.ciiu= ciius_gravadosFuente[$(this).val()];
@@ -243,6 +251,7 @@
                 app.calcular();
             });
         });
+        alert(3);
     </script>
 </body>
 </html>
