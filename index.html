@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Calculadora</title>
+
+    <!-- JQUERY -->
+    <script src="resources/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- VUE -->
+    <script src="resources/bower_components/vue/dist/vue.min.js"></script>
+
+    <!-- ACCOUNTING_JS -->
+    <script src="resources/bower_components/accounting/accounting.min.js"></script>
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- BOOTSTRAP-VALIDATOR -->
+    <script src="resources/bower_components/bootstrap-validator/dist/validator.min.js"></script>
+
+    <!-- SELECT 2 -->
+    <link rel="stylesheet" href="resources/bower_components/select2/dist/css/select2.min.css">
+    <script src="resources/bower_components/select2/dist/js/select2.js"></script>
+
+    <!-- FONTAWESOME -->
+    <link rel="stylesheet" href="resources/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <!-- JSON EXTERNALS -->
+    <script type="text/javascript" src="sources/conceptos.js"></script>
+    <script type="text/javascript" src="sources/ciius_gravados.js"></script>
+
+
+    <style>
+        body { padding-top: 70px; }
+        .numeric{ text-align: right; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Calculadora</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+    <div class="container" id="app">
+        <div class="row">
+            <form data-toggle="validator">
+                <div class="colxs-12 col-sm-6">
+                    <h3>Retención en la fuente e ICA 2017</h3>
+                    <h4>Valores</h4>
+                    <div class="form-group  has-feedback">
+                        <label class="control-label">Base en pesos colombianos $$</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input class="form-control numeric" v-model="base" type="number" min="1"
+                                   v-on:keyup.prevent="calcular"  v-on:click.prevent="calcular"  v-on:blur.prevent="calcular"
+                            >
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors"></div>
+                        <p class="help-block" style="text-align: right"> {{ base | formatMoney }} </p>
+                    </div>
+                    <div class="form-group  has-feedback">
+                        <label class="control-label">
+                            Concepto
+                            <span v-if="concepto !== null">
+                                ( {{ concepto.porcentajeTarifa }} % )
+                            </span>
+                        </label>
+                        <select class="conceptos form-control select2" v-model="concepto" required v-on:change.prevent="calcular">
+                            <option v-for="(concepto_opt, key) in sources.conceptos" :value="key">
+                                {{ concepto_opt.label }}
+                            </option>
+                        </select>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group  has-feedback">
+                        <label class="control-label">
+                            CIIUS Gravados
+                            <span v-if="ciiu !== null">
+                                ( {{ ciiu.tarifa }} % )
+                            </span>
+                        </label>
+                        <select class="ciius_gravados form-control select2" v-model="ciiu" required v-on:change.prevent="calcular">
+                            <option v-for="(ciiu_opt, key) in sources.ciius_gravados" :value="key">
+                                {{ ciiu_opt.codigo_ciiu_0079  }}) {{ ciiu_opt.label }}
+                            </option>
+                        </select>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="colxs-12 col-sm-6">
+
+                    <h4>Resultados</h4>
+                    <div v-if="base>0 && ciiu !== null && concepto !== null ">
+                        <div class="form-group">
+                            <label class="control-label">Valor cobro</label>
+                            <div class="form-control numeric" readonly>{{ valor_cobro | formatMoney }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Valor retencion en la fuente</label>
+                            <div class="form-control numeric" readonly>{{ valor_retencion_fuente | formatMoney }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Valor retencion ICA</label>
+                            <div class="form-control numeric" readonly>{{ valor_retencion_ica | formatMoney }}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Valor a pagar (incluye retenciones aplicadas)</label>
+                            <div class="form-control numeric" readonly>{{ valor_a_pagar | formatMoney }}</div>
+                        </div>
+                    </div>
+                    <a href="#" v-on:click.prevent="acercar_calculo">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                        Calcular hasta obtener valor de pago igual a la base
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                temp: 2,
+                sources: {
+                    conceptos: conceptosFuente,
+                    ciius_gravados: ciius_gravadosFuente
+                },
+                base: 0,
+                concepto: null,
+                ciiu: null,
+                valor_cobro: 0,
+                valor_a_pagar: 0,
+                valor_retencion_ica: 0,
+                valor_base_con_retenciones_aplicadas: 0,
+                valor_retencion_fuente: 0,
+                calcular: function() {
+
+                    if(this.base>0 && this.ciiu !== null && this.concepto !== null){
+                        var resultado= this.calcularSinPersistencia(this.base, this.concepto, this.ciiu);
+                        this.addResultadoToData(resultado);
+                    }
+                },
+                acercar_calculo: function(){
+                    base_con_retencion_en_la_fuente= this.base / ((100 - this.concepto.porcentajeTarifa)/100);
+                    retencion_con_ica= (this.base * this.ciiu.tarifa)/1000;
+                    valor_para_recibir_base_completa= base_con_retencion_en_la_fuente + retencion_con_ica;
+
+                    var valor_deseado= this.base;
+                    var valor_cobro= accounting.toFixed(valor_para_recibir_base_completa, 2);
+                    do{
+                        valor_cobro= (valor_cobro *1) + (100*1);
+                        resultado= this.calcularSinPersistencia(valor_cobro, this.concepto, this.ciiu);
+                    }while (accounting.toFixed(resultado.valor_a_pagar, 2) < valor_deseado);
+                    this.addResultadoToData(resultado);
+                    this.base= resultado.valor_cobro;
+                },
+                addResultadoToData: function(resultado){
+                    this.valor_retencion_fuente= resultado.valor_retencion_fuente;
+                    this.valor_retencion_ica= resultado.valor_retencion_ica;
+                    this.valor_a_pagar= resultado.valor_a_pagar;
+                    this.valor_cobro= resultado.valor_cobro;
+
+                },
+                calcularSinPersistencia: function(base, concepto, ciiu){
+                    var valor_retencion_fuente= base * (concepto.porcentajeTarifa/100);
+                    var valor_retencion_ica= (base * ciiu.tarifa)/1000;
+                    var valor_a_pagar= base - valor_retencion_fuente - valor_retencion_ica;
+                    var valor_cobro= base;
+                    return {
+                        valor_retencion_fuente: valor_retencion_fuente,
+                        valor_retencion_ica: valor_retencion_ica,
+                        valor_a_pagar: valor_a_pagar,
+                        valor_cobro: valor_cobro
+                    };
+                }
+
+            },
+            filters: {
+                formatMoney: function (value) {
+                    return accounting.formatMoney(value);
+                },
+                formatNumber: function (value) {
+                    return accounting.formatNumber(value);
+                }
+            },
+            created: function(){
+                accounting.settings = {
+                    currency: {
+                        symbol : "$",   // default currency symbol is '$'
+                        format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+                        decimal : ",",  // decimal point separator
+                        thousand: ".",  // thousands separator
+                        precision : 2   // decimal places
+                    },
+                    number: {
+                        precision : 0,  // default precision on numbers is 0
+                        thousand: ".",
+                        decimal : ","
+                    }
+                }
+            }
+        })
+        $(document).ready(function(){
+           $('.select2').select2();
+           $('.ciius_gravados').change(function(){
+                app.ciiu= ciius_gravadosFuente[$(this).val()];
+                app.calcular();
+           });
+           $('.conceptos').change(function(){
+                app.concepto= conceptosFuente[$(this).val()];
+               app.calcular();
+           });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
