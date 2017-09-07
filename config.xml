@@ -21,8 +21,4 @@
     <preference name="fullscreen" value="true" />
 
     <icon src="images/icon.png" />
-
-    <!--<gap:plugin name="org.apache.cordova.file" />-->
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
-
 </widget>
