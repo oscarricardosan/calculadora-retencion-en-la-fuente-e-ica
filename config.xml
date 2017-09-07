@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "osg.calculadora.retencionfuente_e_ica"
+        versionCode = "1"
+        version     = "1.0.0"
+>
+    <!-- versionCode es un atributo opcional
+		 y solo es utilizado por Android -->
+
+    <name>Calculadora retencion en la fuente e ica</name>
+
+    <description>Calculadora retencion en la fuente e ica</description>
+
+    <author href="http://savne.net/" email="oscar.sanchez@savne.net">Oscar Sanchez</author>
+
+    <gap:platform name="android" />
+
+    <preference name="orientation" value="default" />
+    <preference name="fullscreen" value="true" />
+
+    <icon src="images/icon.png" />
+
+    <!--<gap:plugin name="org.apache.cordova.file" />-->
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+
+</widget>
