@@ -104,3 +104,4 @@
             vm.calcular();
         });
     });
+    setTimeout(iniciar, 1)
