@@ -1,4 +1,7 @@
 try{
+
+    $('.select2').select2();
+
     $(document).ready(function(){
         var vm= new Vue({
             el: '#app',
