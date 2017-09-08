@@ -97,5 +97,5 @@ try{
     });
 }
 catch(err) {
-    alert(err.message);
+    alert('Error: '+err.message);
 }
