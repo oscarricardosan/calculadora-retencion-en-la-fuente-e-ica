@@ -1,3 +1,10 @@
+function onLoad() {
+    document.addEventListener("deviceready", onDeviceReady, false);
+}
+
+// device APIs are available
+//
+function onDeviceReady() {
 
     var vm;
     try{
@@ -102,3 +109,5 @@
             vm.calcular();
         });
     });
+
+}
