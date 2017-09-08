@@ -1,5 +1,5 @@
 try{
-    var vm= new Vue({
+/*    var vm= new Vue({
         el: '#app',
         data: {
             temp: 2,
@@ -82,7 +82,7 @@ try{
                 }
             }
         }
-    })
+    });*/
 
     $(document).ready(function(){
         $('.select2').select2();
