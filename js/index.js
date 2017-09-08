@@ -93,6 +93,8 @@
 iniciar();
     $(document).ready(function(){
         $('.select2').select2();
+        $('.conceptos').change();
+        $('.ciius_gravados').change();
         $('.ciius_gravados').change(function(){
             if($(this).val()=='')
                 vm.ciiu= null;

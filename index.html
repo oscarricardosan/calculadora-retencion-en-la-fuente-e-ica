@@ -40,8 +40,47 @@
 
 
     <style>
-        body { padding-top: 70px; min-height: 800px;}
+        body {
+            font-family: "Source Sans Pro",sans-serif;
+            min-height: 800px;
+            padding-top: 70px;
+        }
         .numeric{ text-align: right; }
+        .no-ul-margin-bottom>ul{
+            margin-bottom: 0px!important;
+        }
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Enter and leave animations can use different */
+        /* durations and timing functions.              */
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter, .slide-fade-leave-to
+            /* .slide-fade-leave-active below version 2.1.8 */ {
+            transform: translateX(10px);
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +99,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="https://www.savne.net">Savne.net</a></li>
+                    <li><a href="https://www.savne.net">Ir a Savne.net</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -70,9 +109,16 @@
     <div class="container" id="app">
         <div class="row">
             <form data-toggle="validator">
+                <div class="colxs-12 col-sm-12" style="text-align: center">
+                    <h3 style="margin-top: 0;">
+                        <img src="images/savne_net.png" style="height: 30px">
+                        <br>
+                        Retención en la fuente e ICA 2017
+                    </h3>
+                </div>
                 <div class="colxs-12 col-sm-6">
-                    <h3>Retención en la fuente e ICA 2017</h3>
-                    <h4>Valores</h4>
+                    <hr/>
+                    <h4 style="text-align: center; color: #02abae;">Valores</h4>
                     <div class="form-group  has-feedback">
                         <label class="control-label">Base en pesos colombianos $$</label>
                         <div class="input-group">
@@ -81,9 +127,9 @@
                                    v-on:keyup.prevent="calcular"  v-on:click.prevent="calcular"  v-on:blur.prevent="calcular"
                             >
                         </div>
+                        <div class="help-block with-errors no-ul-margin-bottom" style="margin-bottom: 0px !important;"></div>
+                        <p class="help-block" style="text-align: right; margin-top: 0px !important;"> {{ base | formatMoney }} </p>
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                        <div class="help-block with-errors"></div>
-                        <p class="help-block" style="text-align: right"> {{ base | formatMoney }} </p>
                     </div>
                     <div class="form-group  has-feedback">
                         <label class="control-label">
@@ -119,42 +165,52 @@
                     </div>
                 </div>
                 <div class="colxs-12 col-sm-6">
-                    <div v-if="base>0 && ciiu !== null && concepto !== null ">
-                        <h4>Resultados</h4>
-                        <div class="form-group">
-                            <label class="control-label">Valor cobro</label>
-                            <div class="form-control numeric" readonly>{{ valor_cobro | formatMoney }}</div>
-                        </div>
+                    <hr style="margin-bottom: 10px"/>
+                    <transition name="slide-fade">
+                        <div v-if="base>0 && ciiu !== null && concepto !== null ">
+                            <h4 style="text-align: center; color: #02abae;">Resultados</h4>
+                            <div class="form-group">
+                                <label class="control-label">Valor cobro</label>
+                                <div class="form-control numeric" readonly>{{ valor_cobro | formatMoney }}</div>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label">Valor retencion en la fuente</label>
-                            <div class="form-control numeric" readonly>{{ valor_retencion_fuente | formatMoney }}</div>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label">Valor retencion en la fuente</label>
+                                <div class="form-control numeric" readonly>{{ valor_retencion_fuente | formatMoney }}</div>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label">Valor retencion ICA</label>
-                            <div class="form-control numeric" readonly>{{ valor_retencion_ica | formatMoney }}</div>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label">Valor retencion ICA</label>
+                                <div class="form-control numeric" readonly>{{ valor_retencion_ica | formatMoney }}</div>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="control-label">Valor a pagar (incluye retenciones aplicadas)</label>
-                            <div class="form-control numeric" readonly>{{ valor_a_pagar | formatMoney }}</div>
+                            <div class="form-group">
+                                <label class="control-label">Valor a pagar (incluye retenciones aplicadas)</label>
+                                <div class="form-control numeric" readonly>{{ valor_a_pagar | formatMoney }}</div>
+                            </div>
+                            <a href="#" v-on:click.prevent="acercar_calculo">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                                Calcular hasta obtener valor de pago igual a {{ base | formatMoney }}
+                            </a>
                         </div>
-                        <a href="#" v-on:click.prevent="acercar_calculo">
-                            <i class="fa fa-cogs" aria-hidden="true"></i>
-                            Calcular hasta obtener valor de pago igual a {{ base | formatMoney }}
+                        <p v-else class="text-danger" style="text-align: center; font-size: 11px;">
+                            Para hacer el calculo debes completar los campos en rojo.
+                        </p>
+                    </transition>
+                </div>
+                <div class="col-sm-12" style="text-align: center; padding-top: 3em; padding-bottom: 10em">
+                    <hr/>
+                    <div class="col-sm-6" style="text-align: center; padding-bottom: 2em;">
+                        <i class="fa fa-android" aria-hidden="true" style="color: green; font-size: 36px;"></i><br>
+                        Usala desde Android sin necesidad de conexión a internet.<br>
+                        <a href="https://build.phonegap.com/apps/2792307/share">
+                            Descargar desde Adobe
                         </a>
                     </div>
-                    <p v-else class="text-danger">
-                        Para hacer el calculo debes completar los campos en rojo.
-                    </p>
-                </div>
-                <div class="col-sm-12" style="text-align: center; padding-top: 3em;">
-                    <hr/>
-                    <a href="https://build.phonegap.com/apps/2792307/share">
-                        <i class="fa fa-android" aria-hidden="true" style="color: green; font-size: 36px;"></i>
-                        Descargar para android
-                    </a>
+                    <div class="col-sm-6" style="text-align: center; padding-bottom: 2em;">
+                        <img src="images/savne_net.png" style="height: 40px"><br>
+                        Desarrollada por <a href="https://www.savne.net">www.savne.net</a>
+                    </div>
                 </div>
             </form>
         </div>
