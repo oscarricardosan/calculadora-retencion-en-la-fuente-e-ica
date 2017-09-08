@@ -40,7 +40,7 @@
 
 
     <style>
-        body { padding-top: 70px; }
+        body { padding-top: 70px; min-height: 800px;}
         .numeric{ text-align: right; }
     </style>
 </head>
@@ -92,7 +92,8 @@
                                 ( {{ concepto.porcentajeTarifa }} % )
                             </span>
                         </label>
-                        <select class="conceptos form-control select2" v-model="concepto" required v-on:change.prevent="calcular">
+                        <select class="conceptos form-control select2" required v-on:change.prevent="calcular">
+                            <option value="" selected disabled>Seleccione Concepto</option>
                             <option v-for="(concepto_opt, key) in sources.conceptos" :value="key">
                                 {{ concepto_opt.label }}
                             </option>
@@ -107,7 +108,8 @@
                                 ( {{ ciiu.tarifa }} % )
                             </span>
                         </label>
-                        <select class="ciius_gravados form-control select2" v-model="ciiu" required v-on:change.prevent="calcular">
+                        <select class="ciius_gravados form-control select2" required v-on:change.prevent="calcular">
+                            <option value="" selected disabled>Seleccione Ciiu</option>
                             <option v-for="(ciiu_opt, key) in sources.ciius_gravados" :value="key">
                                 {{ ciiu_opt.codigo_ciiu_0079  }}) {{ ciiu_opt.label }}
                             </option>
@@ -117,9 +119,8 @@
                     </div>
                 </div>
                 <div class="colxs-12 col-sm-6">
-
-                    <h4>Resultados</h4>
                     <div v-if="base>0 && ciiu !== null && concepto !== null ">
+                        <h4>Resultados</h4>
                         <div class="form-group">
                             <label class="control-label">Valor cobro</label>
                             <div class="form-control numeric" readonly>{{ valor_cobro | formatMoney }}</div>
@@ -144,6 +145,16 @@
                             Calcular hasta obtener valor de pago igual a {{ base | formatMoney }}
                         </a>
                     </div>
+                    <p v-else class="text-danger">
+                        Para hacer el calculo debes completar los campos en rojo.
+                    </p>
+                </div>
+                <div class="col-sm-12" style="text-align: center; padding-top: 3em;">
+                    <hr/>
+                    <a href="https://build.phonegap.com/apps/2792307/share">
+                        <i class="fa fa-android" aria-hidden="true" style="color: green; font-size: 36px;"></i>
+                        Descargar para android
+                    </a>
                 </div>
             </form>
         </div>

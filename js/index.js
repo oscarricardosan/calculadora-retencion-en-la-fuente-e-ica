@@ -94,11 +94,17 @@ iniciar();
     $(document).ready(function(){
         $('.select2').select2();
         $('.ciius_gravados').change(function(){
-            vm.ciiu= ciius_gravadosFuente[$(this).val()];
+            if($(this).val()=='')
+                vm.ciiu= null;
+            else
+                vm.ciiu= ciius_gravadosFuente[$(this).val()];
             vm.calcular();
         });
         $('.conceptos').change(function(){
-            vm.concepto= conceptosFuente[$(this).val()];
+            if($(this).val()=='')
+                vm.ciiu= null;
+            else
+                vm.concepto= conceptosFuente[$(this).val()];
             vm.calcular();
         });
     });
