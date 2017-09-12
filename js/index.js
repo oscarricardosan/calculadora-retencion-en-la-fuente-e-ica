@@ -148,6 +148,10 @@ iniciar();
                 vm.ciiu= ciius_gravadosFuente[$(this).val()];
             vm.calcular();
         });
+        $('.enlaceExterno').click(function(event){
+            event.preventDefault();
+            window.open($(this).attr('href'), '_system');
+        });
         $('.conceptos').change(function(){
             if($(this).val() === '' || $(this).val() === null)
                 vm.ciiu= null;
