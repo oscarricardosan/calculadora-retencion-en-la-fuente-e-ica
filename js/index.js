@@ -57,16 +57,16 @@ function iniciar(){
                         var base_con_retencion_en_la_fuente= 0;
                     else
                         var base_con_retencion_en_la_fuente= this.base / ((100 - this.concepto.porcentajeTarifa)/100);
-
                     retencion_con_ica= (this.base * this.ciiu.tarifa)/1000;
-                    valor_para_recibir_base_completa= base_con_retencion_en_la_fuente + retencion_con_ica;
+                    valor_para_recibir_base_completa= base_con_retencion_en_la_fuente  + retencion_con_ica;
 
                     var valor_deseado= this.base;
-                    var valor_cobro= accounting.toFixed(valor_para_recibir_base_completa, 2);
+                    var valor_cobro= accounting.toFixed(valor_para_recibir_base_completa, 2)*1;
+
                     do{
                         valor_cobro= (valor_cobro *1) + (100*1);
                         resultado= this.calcularSinPersistencia(valor_cobro, this.concepto, this.ciiu);
-                    }while (accounting.toFixed(resultado.valor_a_pagar, 2) < valor_deseado);
+                    }while (resultado.valor_a_pagar < valor_deseado);
                     this.addResultadoToData(resultado);
                     this.base= resultado.valor_cobro;
                     this.calculando= false;
@@ -86,7 +86,7 @@ function iniciar(){
                         var valor_retencion_fuente= base * (concepto.porcentajeTarifa/100);
 
                     if(this.aplica_iva)
-                        var valor_iva= this.base * (this.porcentaje_iva/100);
+                        var valor_iva= base * (this.porcentaje_iva/100);
                     else
                         var valor_iva=0;
 
@@ -95,11 +95,11 @@ function iniciar(){
                     var valor_a_pagar= base - valor_retencion_fuente - valor_retencion_ica - valor_iva;
                     var valor_cobro= base;
                     return {
-                        valor_retencion_fuente: valor_retencion_fuente,
-                        valor_retencion_ica: valor_retencion_ica,
-                        valor_a_pagar: valor_a_pagar,
-                        valor_iva: valor_iva,
-                        valor_cobro: valor_cobro
+                        valor_retencion_fuente: accounting.toFixed(valor_retencion_fuente, 2)*1,
+                        valor_retencion_ica: accounting.toFixed(valor_retencion_ica, 2)*1,
+                        valor_a_pagar: accounting.toFixed(valor_a_pagar, 2)*1,
+                        valor_iva: accounting.toFixed(valor_iva, 2)*1,
+                        valor_cobro: accounting.toFixed(valor_cobro, 2)*1
                     };
                 }
 

@@ -147,7 +147,7 @@
             <div id="sidebar-wrapper">
                 <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
                     <li class="active">
-                        <a href="#"><span class="fa-stack fa-lg pull-left">
+                        <a href="index.html"><span class="fa-stack fa-lg pull-left">
                             <i class="fa fa-calculator fa-stack-1x "></i></span>Calculadora
                         </a>
                     </li>
@@ -179,7 +179,7 @@
                 </ul>
             </div><!-- /#sidebar-wrapper -->
 
-            <div id="page-content-wrapper">
+            <div id="page-content-wrapper" style="padding-top: 16px;">
                 <div class="container-fluid xyz">
                     <div class="row">
                         <form data-toggle="validator">
@@ -240,7 +240,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" v-model="aplica_iva" > Aplica IVA
+                                        <input type="checkbox" v-model="aplica_iva" > Aplica IVA ({{ porcentaje_iva }}%)
                                     </label>
                                 </div>
                             </div>
