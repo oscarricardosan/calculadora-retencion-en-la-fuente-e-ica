@@ -192,8 +192,8 @@
                                 <tbody>
                                 <tr v-for="(concepto, key) in sources.conceptos">
                                     <td>{{ concepto.label }}</td>
-                                    <td>{{ concepto.baseUvt }}</td>
-                                    <td>{{ concepto.baseEnPesos }}</td>
+                                    <td>{{ concepto.baseUvt===undefined?'No aplica':concepto.baseUvt }}</td>
+                                    <td>{{ concepto.baseEnPesos===undefined?'100%':concepto.baseEnPesos }}</td>
                                     <td>{{ concepto.porcentajeTarifa }}</td>
                                 </tr>
                                 </tbody>
