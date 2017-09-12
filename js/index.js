@@ -49,7 +49,12 @@ function iniciar(){
                 },
                 acercar_calculo: function(){
                     this.calculando= true;
-                    base_con_retencion_en_la_fuente= this.base / ((100 - this.concepto.porcentajeTarifa)/100);
+
+                    if(this.autoretenedor)
+                        var base_con_retencion_en_la_fuente= 0;
+                    else
+                        var base_con_retencion_en_la_fuente= this.base / ((100 - this.concepto.porcentajeTarifa)/100);
+
                     retencion_con_ica= (this.base * this.ciiu.tarifa)/1000;
                     valor_para_recibir_base_completa= base_con_retencion_en_la_fuente + retencion_con_ica;
 
