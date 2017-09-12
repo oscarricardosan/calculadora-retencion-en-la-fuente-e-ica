@@ -36,12 +36,11 @@
 
 #page-content-wrapper {
     position: absolute;
-    padding: 15px;
     width: 100%;
     overflow-x: hidden;
 }
 .xyz{
-    min-width: 360px;
+    min-width: 250px;
 }
 #wrapper.toggled #page-content-wrapper {
     position: relative;
