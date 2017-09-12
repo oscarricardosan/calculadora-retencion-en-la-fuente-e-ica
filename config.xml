@@ -16,6 +16,7 @@
     <author href="http://savne.net/" email="oscar.sanchez@savne.net">Oscar Sanchez</author>
 
     <gap:platform name="android" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" source="npm"/>
 
     <preference name="orientation" value="default" />
     <preference name="fullscreen" value="true" />
