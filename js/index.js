@@ -137,26 +137,32 @@ function iniciar(){
     }
 }
 iniciar();
-    $(document).ready(function(){
-        $('.select2').select2();
-        $('.conceptos').change();
-        $('.ciius_gravados').change();
-        $('.ciius_gravados').change(function(){
-            if($(this).val()=='')
-                vm.ciiu= null;
-            else
-                vm.ciiu= ciius_gravadosFuente[$(this).val()];
-            vm.calcular();
-        });
-        $('.enlaceExterno').click(function(event){
-            event.preventDefault();
-            window.open($(this).attr('href'), '_system');
-        });
-        $('.conceptos').change(function(){
-            if($(this).val() === '' || $(this).val() === null)
-                vm.ciiu= null;
-            else
-                vm.concepto= conceptosFuente[$(this).val()];
-            vm.calcular();
-        });
+$(document).ready(function(){
+    $('.select2').select2();
+    $('.conceptos').change();
+    $('.ciius_gravados').change();
+    $('.ciius_gravados').change(function(){
+        if($(this).val()=='')
+            vm.ciiu= null;
+        else
+            vm.ciiu= ciius_gravadosFuente[$(this).val()];
+        vm.calcular();
     });
+    $('.enlaceExterno').click(function(event){
+        event.preventDefault();
+        window.open($(this).attr('href'), '_system');
+    });
+    $('.conceptos').change(function(){
+        if($(this).val() === '' || $(this).val() === null)
+            vm.ciiu= null;
+        else
+            vm.concepto= conceptosFuente[$(this).val()];
+        vm.calcular();
+    });
+});
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    window.open = cordova.InAppBrowser.open;
+}
+
