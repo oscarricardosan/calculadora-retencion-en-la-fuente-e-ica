@@ -15,6 +15,9 @@ function iniciar(){
                     conceptos: conceptosFuente,
                     ciius_gravados: ciius_gravadosFuente
                 },
+                porcentaje_iva: 19,
+                valor_iva: 0,
+                aplica_iva: false,
                 base: 0,
                 concepto: null,
                 ciiu: null,
@@ -73,6 +76,7 @@ function iniciar(){
                     this.valor_retencion_ica= resultado.valor_retencion_ica;
                     this.valor_a_pagar= resultado.valor_a_pagar;
                     this.valor_cobro= resultado.valor_cobro;
+                    this.valor_iva= resultado.valor_iva;
 
                 },
                 calcularSinPersistencia: function(base, concepto, ciiu){
@@ -80,13 +84,21 @@ function iniciar(){
                         var valor_retencion_fuente= 0;
                     else
                         var valor_retencion_fuente= base * (concepto.porcentajeTarifa/100);
+
+                    if(this.aplica_iva)
+                        var valor_iva= this.base * (this.porcentaje_iva/100);
+                    else
+                        var valor_iva=0;
+
                     var valor_retencion_ica= (base * ciiu.tarifa)/1000;
-                    var valor_a_pagar= base - valor_retencion_fuente - valor_retencion_ica;
+
+                    var valor_a_pagar= base - valor_retencion_fuente - valor_retencion_ica - valor_iva;
                     var valor_cobro= base;
                     return {
                         valor_retencion_fuente: valor_retencion_fuente,
                         valor_retencion_ica: valor_retencion_ica,
                         valor_a_pagar: valor_a_pagar,
+                        valor_iva: valor_iva,
                         valor_cobro: valor_cobro
                     };
                 }
@@ -111,6 +123,9 @@ function iniciar(){
                     this.calcular();
                 },
                 concepto: function (val) {
+                    this.calcular();
+                },
+                aplica_iva: function (val) {
                     this.calcular();
                 }
             },
