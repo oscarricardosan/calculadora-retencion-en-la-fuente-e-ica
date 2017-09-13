@@ -4,7 +4,7 @@ function iniciar(){
         vm= new Vue({
             el: '#app',
             data: {
-                url_apk_android: 'https://build.phonegap.com/apps/2792307/share',
+                url_apk_android: 'https://play.google.com/store/apps/details?id=osg.calculadora.retencionfuente_e_ica',
                 url_savne: 'https://www.savne.net/',
                 url_web: 'https://calculadora-retenciones.savne.net/',
 
@@ -32,6 +32,10 @@ function iniciar(){
                     var resultado= this.calcularSinPersistencia(this.base, this.concepto, this.ciiu);
                     this.addResultadoToData(resultado);
                     this.calculando= false;
+                    Default_valueRepository.insertOrUpdate({
+                        ciiu_id: this.ciiu.id,
+                        concepto_id: this.concepto.id
+                    });
                 },
                 validateData: function(){
                     if(this.autoretenedor===false && (this.base<=0 || this.ciiu === null || this.concepto === null)) {

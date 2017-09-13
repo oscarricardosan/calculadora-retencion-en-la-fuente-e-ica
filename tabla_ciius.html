@@ -201,25 +201,24 @@
                             <div class="col-sm-12" style="text-align: center; padding-top: 0em; padding-bottom: 10em">
                                 <hr/>
                                 <div class="col-sm-4" style="text-align: center; padding-bottom: 2em;">
-                                    <i class="fa fa-android" aria-hidden="true" style="color: green; font-size: 36px;"></i><br>
-                                    Desde Android sin necesidad de internet<br>
-                                    <a :href="url_apk_android">
-                                        Descargar desde Adobe
-                                    </a>
-                                </div>
-                                <div class="col-sm-4" style="text-align: center; padding-bottom: 2em;">
-                                    <img src="images/savne_net.png" style="height: 40px"><br>
+                                    <img src="images/savne_net.png" style="height: 50px"><br>
                                     Desarrollada por
                                     <a :href="url_savne">www.savne.net</a>
                                 </div>
                                 <div class="col-sm-4" style="text-align: center; padding-bottom: 2em;">
-                                    <i class="fa fa-desktop" aria-hidden="true" style="color: darkblue; font-size: 36px;"></i><br>
-                                    Desde cualquier navegador<br>
+                                    <a :href="url_apk_android">
+                                        <img alt='Disponible en Google Play' src='images/google-play-badge.png' style="max-height: 90px"/>
+                                    </a>
+                                </div>
+                                <div class="col-sm-4" style="text-align: center; padding-bottom: 2em;">
+                                    <i class="fa fa-desktop" aria-hidden="true" style="color: #286090; font-size: 36px;"></i><br>
+                                    Versión web<br>
                                     <a :href="url_web">
                                         www.calculadora-retenciones.savne.net
                                     </a>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -232,7 +231,7 @@
         vm= new Vue({
             el: '#app',
             data: {
-                url_apk_android: 'https://build.phonegap.com/apps/2792307/share',
+                url_apk_android: 'https://play.google.com/store/apps/details?id=osg.calculadora.retencionfuente_e_ica',
                 url_savne: 'https://www.savne.net/',
                 url_web: 'https://calculadora-retenciones.savne.net/',
                 sources: {

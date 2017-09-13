@@ -2,16 +2,16 @@
 
 <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-        id          = "osg.calculadora.retencionfuente_e_ica"
-        versionCode = "1"
-        version     = "1.0.0"
+        id          = "osg.calculadora.retenciones"
+        versionCode = "2"
+        version     = "1.1.0"
 >
     <!-- versionCode es un atributo opcional
 		 y solo es utilizado por Android -->
 
     <name>Calculadora retenciones</name>
 
-    <description>Calculadora retencion en la fuente e ica</description>
+    <description>Calculadora de retenciones</description>
 
     <author href="http://savne.net/" email="oscar.sanchez@savne.net">Oscar Sanchez</author>
 
