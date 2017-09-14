@@ -24,7 +24,7 @@ var conceptosFuente= [
     {id: 17, 'label': 'Servicios prestados por empresas de vigilancia y aseo (sobre AIU)', baseUvt: 4, baseEnPesos: 127000, porcentajeTarifa: 2, aiu: true},
     {id: 18, 'label': 'Servicios integrales de salud prestados por IPS', baseUvt: 4, baseEnPesos: 127000, porcentajeTarifa: 2, aiu: false},
     {id: 19, 'label': 'Servicios de hoteles y restaurantes (declarantes) ', baseUvt: 4, baseEnPesos: 127000, porcentajeTarifa: 3.5, aiu: false},
-    {id: 10, 'label': 'Servicios de hoteles y restaurantes (no declarantes) ', baseUvt: 4, baseEnPesos: 127000, porcentajeTarifa: 3.5, aiu: false},
+    {id: 20, 'label': 'Servicios de hoteles y restaurantes (no declarantes) ', baseUvt: 4, baseEnPesos: 127000, porcentajeTarifa: 3.5, aiu: false},
     {id: 21, 'label': 'Arrendamiento de bienes muebles', baseUvt: undefined, baseEnPesos: undefined, porcentajeTarifa: 4, aiu: false},
     {id: 22, 'label': 'Arrendamiento de bienes inmuebles (declarantes)', baseUvt: 27, baseEnPesos: 860000, porcentajeTarifa: 3.5, aiu: false},
     {id: 23, 'label': 'Arrendamiento de bienes inmuebles (no declarantes)', baseUvt: 27, baseEnPesos: 860000, porcentajeTarifa: 3.5, aiu: false},

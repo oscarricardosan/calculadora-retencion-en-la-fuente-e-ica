@@ -1,2 +1,2 @@
-window.fdb = new ForerunnerDB();
-db = fdb.db('calculadora');
+var fdb = new ForerunnerDB(),
+    db = fdb.db("calculadora");

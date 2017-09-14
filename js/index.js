@@ -32,12 +32,17 @@ function iniciar(){
                     var resultado= this.calcularSinPersistencia(this.base, this.concepto, this.ciiu);
                     this.addResultadoToData(resultado);
                     this.calculando= false;
-                    Default_valueModel.insertOrUpdate({
+                    Default_calculatorModel.insertOrUpdate({
                         ciiu_id: this.ciiu.id,
-                        concepto_id: this.concepto.id
+                        concepto_id: this.concepto.id,
+                        autoretenedor: this.autoretenedor,
+                        aplica_iva: this.aplica_iva,
+                        base: this.base,
                     });
                 },
                 validateData: function(){
+                    this.concepto= this.concepto===undefined?null:this.concepto;
+                    this.ciiu= this.ciiu===undefined?null:this.ciiu;
                     if(this.autoretenedor===false && (this.base<=0 || this.ciiu === null || this.concepto === null)) {
                         this.error='Para hacer el calculo debes completar los campos en rojo';
                         return false;
@@ -122,6 +127,7 @@ function iniciar(){
                 },
                 base: function (val) {
                     this.calcular();
+                    $('.baseField').focus();
                 },
                 ciiu: function (val) {
                     this.calcular();
@@ -164,7 +170,7 @@ $(document).ready(function(){
         if($(this).val()=='')
             vm.ciiu= null;
         else
-            vm.ciiu= ciius_gravadosFuente[$(this).val()];
+            vm.ciiu= _.findWhere(vm.sources.ciius_gravados, {id: $(this).val()*1});
         vm.calcular();
     });
     $('.enlaceExterno').click(function(event){
@@ -175,13 +181,40 @@ $(document).ready(function(){
         if($(this).val() === '' || $(this).val() === null)
             vm.ciiu= null;
         else
-            vm.concepto= conceptosFuente[$(this).val()];
+            vm.concepto= _.findWhere(vm.sources.conceptos, {id: $(this).val()*1});
         vm.calcular();
     });
+    addDefaultValues();
 });
 
+function addDefaultValues(){
+    Default_calculatorModel.loaded(function(){
+        if(!Default_calculatorModel.isEmpty()){
+            var defaults= Default_calculatorModel.get();
+            $('.ciius_gravados').val(defaults.ciiu_id);
+            $('.ciius_gravados').change();
+
+            $('.conceptos').val(defaults.concepto_id);
+            $('.conceptos').change();
+
+            vm.autoretenedor= defaults.autoretenedor;
+            vm.aplica_iva= defaults.aplica_iva;
+            vm.base= defaults.base;
+            $('.baseField').val(defaults.base).focus().blur();
+        }
+    });
+}
+
+
+Default_emailModel.loaded(function(){
+    //console.log(Default_calculatorModel.get());
+});
+
+
+
+
+/** Ready on mobiles **/
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {
     window.open = cordova.InAppBrowser.open;
 }
-

@@ -2,10 +2,19 @@
 var MigrationModel= (function () {
 
     var collection_name= 'migrations';
+
+    var loaded_Callback= function(){};
+    var isLoaded= false;
     /**
      * Carga los datos si ya estan en localstorage
      */
-    db.collection(collection_name).load();
+    db.collection(collection_name).load(function (err, tableStats, metaStats) {
+        if (!err) {
+            loaded_Callback();
+        }else{
+            alert('Error al cargar colección '+collection_name)
+        }
+    });
 
     /**
      * @returns {boolean}
@@ -19,7 +28,7 @@ var MigrationModel= (function () {
      * @returns {boolean}
      */
     var migrationWasExecuted = function(migration_id){
-        return !db.collection(collection_name).find({_id: migration_id}).length === 0;
+        return db.collection(collection_name).find({_id: migration_id}).length > 0;
     }
 
     /**
@@ -32,14 +41,25 @@ var MigrationModel= (function () {
             descripcion: description
         });
 
-        db.collection(collection_name).save();
-    }
+        db.collection(collection_name).save(function (err) {
+            if (!err) {/* Save was successful */}
+            else{ alert('Error al guardar en '+collection_name);}
+        });
+    };
+
+    var loaded= function(callback){
+        if(isLoaded)
+            callback();
+        else
+            loaded_Callback= callback;
+    };
 
     function construct(){//Funcion que controla cuales son los metodos publicos
         return {
             collectionExists    : collectionExists,
             migrationWasExecuted    : migrationWasExecuted,
-            store    : store
+            store    : store,
+            loaded    : loaded
         }
     };
     return {construct:construct};//retorna los metodos publicos

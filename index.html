@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- VUE -->
-    <script src="js/vue.min.js" type="text/javascript"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,18 +8,21 @@
 
     <title>Calculadora</title>
 
-    <script type="text/javascript" src="cordova.js"></script>
-
     <!-- ForerunNerdb -->
     <script src="resources/ForerunnerDB-master/js/dist/fdb-all.js" type="text/javascript"></script>
-
-    <!-- DB.JS -->
     <script type="application/javascript" src="db/setup.js"></script>
     <script type="application/javascript" src="db/Models/MigrationModel.js"></script>
-    <script type="application/javascript" src="db/Models/Default_valueModel.js"></script>
+    <script type="application/javascript" src="db/Models/Default_calculatorModel.js"></script>
+    <script type="application/javascript" src="db/Models/Default_emailModel.js"></script>
     <script type="application/javascript" src="db/run_migrations.js"></script>
 
+    <!-- VUE -->
+    <script src="js/vue.min.js" type="text/javascript"></script>
 
+    <!-- UNDERSCORE JS -->
+    <script src="js/underscore-min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="cordova.js"></script>
 
     <!-- JQUERY -->
     <script src="resources/bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
@@ -205,7 +204,7 @@
                                     <label class="control-label">Base en pesos colombianos $$</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">$</span>
-                                        <input class="form-control numeric" v-model="base" type="number" min="1">
+                                        <input class="form-control numeric baseField" v-model="base" type="number" min="1">
                                     </div>
                                     <div class="help-block with-errors no-ul-margin-bottom" style="margin-bottom: 0px !important;"></div>
                                     <p class="help-block" style="text-align: right; margin-top: 0px !important;"> {{ base | formatMoney }} </p>
@@ -225,7 +224,7 @@
                                     </label>
                                     <select class="conceptos form-control select2" required>
                                         <option value="" selected disabled>Seleccione Concepto</option>
-                                        <option v-for="(concepto_opt, key) in sources.conceptos" :value="key">
+                                        <option v-for="(concepto_opt, key) in sources.conceptos" :value="concepto_opt.id">
                                             {{ concepto_opt.label }}
                                         </option>
                                     </select>
@@ -241,7 +240,7 @@
                                     </label>
                                     <select class="ciius_gravados form-control select2" required>
                                         <option value="" selected disabled>Seleccione Ciiu</option>
-                                        <option v-for="(ciiu_opt, key) in sources.ciius_gravados" :value="key">
+                                        <option v-for="(ciiu_opt, key) in sources.ciius_gravados" :value="ciiu_opt.id">
                                             {{ ciiu_opt.codigo_ciiu_0079  }}) {{ ciiu_opt.label }}
                                         </option>
                                     </select>
@@ -335,28 +334,23 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Define a todo item template -->
+        <script type="text/x-jsrender" id="todoItem">
+			<li data-link="id{:_id}">
+				<span>{^{:ciiu_id}}</span>
+			</li>
+		</script>
+
+        <!-- Create an element where our todo items will be output -->
+        <ul id="todoList"></ul>
+
     </div>
+
     <script type="text/javascript" src="js/index.js?2"></script>
 
     <!-- MENU -->
     <script type="text/javascript" src="js/menu.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
