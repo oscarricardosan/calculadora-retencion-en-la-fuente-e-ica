@@ -1,5 +1,5 @@
 
-var Default_valueRepository= (function () {
+var Default_valueModel= (function () {
 
     var collection_name= 'defaults';
     /**
@@ -12,9 +12,9 @@ var Default_valueRepository= (function () {
      */
     var insertOrUpdate = function(data){
         if(db.collection(collection_name).find().length === 0){
-            store(data)
+            return store(data)
         }else{
-            update(1, data);
+            return update(1, data);
         }
     }
 
@@ -27,6 +27,7 @@ var Default_valueRepository= (function () {
             _id: _id
         }, data);
         db.collection(collection_name).save();
+        return get();
     }
 
     /**
@@ -36,6 +37,7 @@ var Default_valueRepository= (function () {
         data._id= 1;
         db.collection(collection_name).insert(data);
         db.collection(collection_name).save();
+        return get();
     }
 
     var get = function(){

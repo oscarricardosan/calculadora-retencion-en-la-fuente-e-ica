@@ -1,5 +1,5 @@
 
-var MigrationRepository= (function () {
+var MigrationModel= (function () {
 
     var collection_name= 'migrations';
     /**

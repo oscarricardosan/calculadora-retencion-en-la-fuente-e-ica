@@ -32,7 +32,7 @@ function iniciar(){
                     var resultado= this.calcularSinPersistencia(this.base, this.concepto, this.ciiu);
                     this.addResultadoToData(resultado);
                     this.calculando= false;
-                    Default_valueRepository.insertOrUpdate({
+                    Default_valueModel.insertOrUpdate({
                         ciiu_id: this.ciiu.id,
                         concepto_id: this.concepto.id
                     });
