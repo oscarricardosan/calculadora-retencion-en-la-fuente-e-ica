@@ -204,6 +204,7 @@ $(document).ready(function(){
     addDefaultValues();
 });
 
+
 function addDefaultValues(){
     Default_calculatorModel.loaded(function(){
         if(!Default_calculatorModel.isEmpty()){
