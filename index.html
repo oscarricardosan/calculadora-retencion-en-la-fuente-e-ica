@@ -191,7 +191,7 @@
             <div id="page-content-wrapper" style="padding-top: 16px;">
                 <div class="container-fluid xyz">
                     <div class="row">
-                        <form data-toggle="validator">
+                        <form data-toggle="validator" v-on:submit.prevent>
                             <div class="colxs-12 col-sm-12" style="text-align: center">
                                 <h3 style="margin-top: 0;">
                                     Calculadora de Retenciones 2017
@@ -204,22 +204,22 @@
                                     <label class="control-label">Base en pesos colombianos $$</label>
                                     <div class="input-group">
                                         <span class="input-group-addon">$</span>
-                                        <input class="form-control numeric baseField" v-model="base" type="number" min="1">
+                                        <input class="form-control numeric baseField" v-model="data_calculadora.base" type="number" min="1">
                                     </div>
                                     <div class="help-block with-errors no-ul-margin-bottom" style="margin-bottom: 0px !important;"></div>
-                                    <p class="help-block" style="text-align: right; margin-top: 0px !important;"> {{ base | formatMoney }} </p>
+                                    <p class="help-block" style="text-align: right; margin-top: 0px !important;"> {{ data_calculadora.base | formatMoney }} </p>
                                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" v-model="autoretenedor" > Soy autoretenedor
+                                        <input type="checkbox" v-model="data_calculadora.autoretenedor" > Soy autoretenedor
                                     </label>
                                 </div>
-                                <div class="form-group  has-feedback" v-show="!autoretenedor">
+                                <div class="form-group  has-feedback" v-show="!data_calculadora.autoretenedor">
                                     <label class="control-label">
                                         Concepto
-                                        <span v-if="concepto !== null">
-                                            ( {{ concepto.porcentajeTarifa }} % )
+                                        <span v-if="data_calculadora.concepto !== null">
+                                            ( {{ data_calculadora.concepto.porcentajeTarifa }} % )
                                         </span>
                                     </label>
                                     <select class="conceptos form-control select2" required>
@@ -234,8 +234,8 @@
                                 <div class="form-group  has-feedback">
                                     <label class="control-label">
                                         CIIUS Gravados
-                                        <span v-if="ciiu !== null">
-                                            ( {{ ciiu.tarifa }} % )
+                                        <span v-if="data_calculadora.ciiu !== null">
+                                            ( {{ data_calculadora.ciiu.tarifa }} % )
                                         </span>
                                     </label>
                                     <select class="ciius_gravados form-control select2" required>
@@ -249,7 +249,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" v-model="aplica_iva" > Aplica IVA ({{ porcentaje_iva }}%)
+                                        <input type="checkbox" v-model="data_calculadora.aplica_iva" > Aplica IVA ({{ porcentaje_iva }}%)
                                     </label>
                                 </div>
                             </div>
@@ -281,7 +281,7 @@
                                             <div class="form-control numeric" readonly>{{ valor_retencion_ica | formatMoney }}</div>
                                         </div>
 
-                                        <div class="form-group" v-if="aplica_iva">
+                                        <div class="form-group" v-if="data_calculadora.aplica_iva">
                                             <label class="control-label">Valor IVA</label>
                                             <div class="form-control numeric" readonly>{{ valor_iva | formatMoney }}</div>
                                         </div>
@@ -297,11 +297,11 @@
                                         <div class="form-group" style="text-align: center;">
                                             <a href="#" v-on:click.prevent="acercar_calculo">
                                                 <i class="fa fa-cogs" aria-hidden="true"></i>
-                                                Calcular hasta obtener valor de pago igual a {{ base | formatMoney }}
+                                                Calcular hasta obtener valor de pago igual a {{ data_calculadora.base | formatMoney }}
                                             </a>
                                         </div>
                                         <div class="form-group" style="margin-top: 1em; text-align: center;">
-                                            <a href="#" v-on:click.prevent="enviar_por_email">
+                                            <a href="#" v-on:click.prevent data-toggle="modal" data-target="#modalEmail">
                                                 <i class="fa fa-envelope-o" aria-hidden="true"></i>
                                                 Enviar formato de cuenta de cobro a tu email
                                             </a>
@@ -336,21 +336,87 @@
         </div>
 
 
-        <!-- Define a todo item template -->
-        <script type="text/x-jsrender" id="todoItem">
-			<li data-link="id{:_id}">
-				<span>{^{:ciiu_id}}</span>
-			</li>
-		</script>
 
-        <!-- Create an element where our todo items will be output -->
-        <ul id="todoList"></ul>
 
+
+        <!-- MODALS -->
+        <div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Información para enviar email</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Tu email:</label>
+                            <input type="email" class="form-control" placeholder="tu_email@dominio.com" v-model="data_email.email">
+                            <p class="help-block">
+                                A este email se enviará la cuenta de cobro
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha:</label>
+                            <input type="date" class="form-control" v-model="data_email.fecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Ciudad:</label>
+                            <input type="text" class="form-control" v-model="data_email.ciudad">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Servicio(s) prestado(s):</label>
+                            <template v-for="servicio in data_email.servicios_prestados" >
+                                <input type="text" class="form-control" v-model="servicio">
+                            </template>
+                        </div>
+                        <h3>Información de tu cliente</h3>
+                        <div class="form-group">
+                            <label>Su nombre:</label>
+                            <input type="text" class="form-control" placeholder="Empresa Z" v-model="data_email.cliente.nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Su identificación:</label>
+                            <input type="text" class="form-control" placeholder="NIT 00000000-0" v-model="data_email.cliente.identificacion">
+                        </div>
+                        <h3>Tu informacion</h3>
+                        <div class="form-group">
+                            <label>Tu nombre:</label>
+                            <input type="text" class="form-control" placeholder="" v-model="data_email.usuario.nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Tu documento de identidad:</label>
+                            <input type="text" class="form-control" placeholder="CC 000000" v-model="data_email.usuario.identificacion">
+                        </div>
+                        <div class="form-group">
+                            <label>Tu número de teléfono:</label>
+                            <input type="text" class="form-control" placeholder="300 00 000" v-model="data_email.usuario.telefono">
+                        </div>
+
+                        <hr/>
+                        <div class="form-group">
+                            <label>Leyenda al final de la cuenta de cobro:</label>
+                            <textarea class="form-control" rows="5" v-model="data_email.leyenda_al_final"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" v-on:click.prevent="enviarEmail">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script type="text/javascript" src="js/index.js?2"></script>
+    <script type="text/javascript" src="js/index.js?3"></script>
 
     <!-- MENU -->
     <script type="text/javascript" src="js/menu.js"></script>
+
+
+
 </body>
 </html>
+
+

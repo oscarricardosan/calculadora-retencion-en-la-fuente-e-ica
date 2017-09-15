@@ -10,50 +10,63 @@ function iniciar(){
 
                 error: 'Para hacer el calculo debes completar los campos en rojo',
                 calculando: false,
-                autoretenedor: false,
                 sources: {
                     conceptos: conceptosFuente,
                     ciius_gravados: ciius_gravadosFuente
                 },
+                data_calculadora: {
+                    base: 0,
+                    autoretenedor: false,
+                    concepto: null,
+                    ciiu: null,
+                    aplica_iva: false,
+                },
+                data_email: {
+                    email: null,
+                    fecha: null,
+                    ciudad: null,
+                    servicios_prestados: [],
+                    leyenda_al_final: [],
+                    cliente: {
+                        nombre: null,
+                        identificacion: null,
+                    },
+                    usuario: {
+                        nombre: null,
+                        identificacion: null,
+                        telefono: null,
+                    },
+                },
                 porcentaje_iva: 19,
                 valor_iva: 0,
-                aplica_iva: false,
-                base: 0,
-                concepto: null,
-                ciiu: null,
                 valor_cobro: 0,
                 valor_a_pagar: 0,
                 valor_retencion_ica: 0,
                 valor_base_con_retenciones_aplicadas: 0,
                 valor_retencion_fuente: 0,
                 calcular: function() {
+                    this.data_calculadora.base= accounting.toFixed(this.data_calculadora.base, 0)*1;
                     if(this.validateData()===false) return false;
                     this.calculando= true;
-                    var resultado= this.calcularSinPersistencia(this.base, this.concepto, this.ciiu);
+                    var resultado= this.calcularSinPersistencia(this.data_calculadora.base, this.data_calculadora.concepto, this.data_calculadora.ciiu);
                     this.addResultadoToData(resultado);
                     this.calculando= false;
-                    Default_calculatorModel.insertOrUpdate({
-                        ciiu_id: this.ciiu.id,
-                        concepto_id: this.concepto.id,
-                        autoretenedor: this.autoretenedor,
-                        aplica_iva: this.aplica_iva,
-                        base: this.base,
-                    });
+                    Default_calculatorModel.insertOrUpdate(this.data_calculadora);
                 },
                 validateData: function(){
-                    this.concepto= this.concepto===undefined?null:this.concepto;
-                    this.ciiu= this.ciiu===undefined?null:this.ciiu;
-                    if(this.autoretenedor===false && (this.base<=0 || this.ciiu === null || this.concepto === null)) {
+                    this.data_calculadora.concepto= this.data_calculadora.concepto===undefined?null:this.data_calculadora.concepto;
+                    this.data_calculadora.ciiu= this.data_calculadora.ciiu===undefined?null:this.data_calculadora.ciiu;
+                    if(this.data_calculadora.autoretenedor===false && (this.data_calculadora.base<=0 || this.data_calculadora.ciiu === null || this.data_calculadora.concepto === null)) {
                         this.error='Para hacer el calculo debes completar los campos en rojo';
                         return false;
                     }
-                    if(this.autoretenedor===true && (this.base<=0 || this.ciiu === null)) {
+                    if(this.data_calculadora.autoretenedor===true && (this.data_calculadora.base<=0 || this.data_calculadora.ciiu === null)) {
                         this.error='Para hacer el calculo debes completar los campos en rojo';
                         return false;
                     }
-                    if(this.autoretenedor===false && (this.concepto.baseEnPesos !== undefined && this.base<this.concepto.baseEnPesos)) {
+                    if(this.data_calculadora.autoretenedor===false && (this.data_calculadora.concepto.baseEnPesos !== undefined && this.data_calculadora.base<this.data_calculadora.concepto.baseEnPesos)) {
                         this.error=
-                            'Base mínima para el concepto "'+this.concepto.label+'" es de '+accounting.formatMoney(this.concepto.baseEnPesos);
+                            'Base mínima para el concepto "'+this.data_calculadora.concepto.label+'" es de '+accounting.formatMoney(this.data_calculadora.concepto.baseEnPesos);
                         return false;
                     }
                     this.error= null;
@@ -62,22 +75,22 @@ function iniciar(){
                 acercar_calculo: function(){
                     this.calculando= true;
 
-                    if(this.autoretenedor)
+                    if(this.data_calculadora.autoretenedor)
                         var base_con_retencion_en_la_fuente= 0;
                     else
-                        var base_con_retencion_en_la_fuente= this.base / ((100 - this.concepto.porcentajeTarifa)/100);
-                    retencion_con_ica= (this.base * this.ciiu.tarifa)/1000;
+                        var base_con_retencion_en_la_fuente= this.data_calculadora.base / ((100 - this.data_calculadora.concepto.porcentajeTarifa)/100);
+                    retencion_con_ica= (this.data_calculadora.base * this.data_calculadora.ciiu.tarifa)/1000;
                     valor_para_recibir_base_completa= base_con_retencion_en_la_fuente  + retencion_con_ica;
 
-                    var valor_deseado= this.base;
+                    var valor_deseado= this.data_calculadora.base;
                     var valor_cobro= accounting.toFixed(valor_para_recibir_base_completa, 2)*1;
 
                     do{
                         valor_cobro= (valor_cobro *1) + (100*1);
-                        resultado= this.calcularSinPersistencia(valor_cobro, this.concepto, this.ciiu);
+                        resultado= this.calcularSinPersistencia(valor_cobro, this.data_calculadora.concepto, this.data_calculadora.ciiu);
                     }while (resultado.valor_a_pagar < valor_deseado);
                     this.addResultadoToData(resultado);
-                    this.base= resultado.valor_cobro;
+                    this.data_calculadora.base= resultado.valor_cobro;
                     this.calculando= false;
                 },
                 addResultadoToData: function(resultado){
@@ -89,12 +102,12 @@ function iniciar(){
 
                 },
                 calcularSinPersistencia: function(base, concepto, ciiu){
-                    if(this.autoretenedor)
+                    if(this.data_calculadora.autoretenedor)
                         var valor_retencion_fuente= 0;
                     else
                         var valor_retencion_fuente= base * (concepto.porcentajeTarifa/100);
 
-                    if(this.aplica_iva)
+                    if(this.data_calculadora.aplica_iva)
                         var valor_iva= base * (this.porcentaje_iva/100);
                     else
                         var valor_iva=0;
@@ -110,6 +123,17 @@ function iniciar(){
                         valor_iva: accounting.toFixed(valor_iva, 2)*1,
                         valor_cobro: accounting.toFixed(valor_cobro, 2)*1
                     };
+                },
+                now: function(){
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    if(dd<10) dd = '0'+dd;
+                    if(mm<10) mm = '0'+mm;
+                    return today.getFullYear()+'-'+mm+'-'+dd;
+                },
+                enviarEmail: function(){
+                    Default_emailModel.insertOrUpdate(this.data_email);
                 }
 
             },
@@ -122,21 +146,9 @@ function iniciar(){
                 }
             },
             watch: {
-                autoretenedor: function (val) {
-                    this.calcular();
-                },
-                base: function (val) {
-                    this.calcular();
-                    $('.baseField').focus();
-                },
-                ciiu: function (val) {
-                    this.calcular();
-                },
-                concepto: function (val) {
-                    this.calcular();
-                },
-                aplica_iva: function (val) {
-                    this.calcular();
+                data_calculadora: {
+                    handler: function (val, oldVal) { this.calcular(); },
+                    deep: true
                 }
             },
             created: function(){
@@ -153,7 +165,8 @@ function iniciar(){
                         thousand: ".",
                         decimal : ","
                     }
-                }
+                };
+                this.data_email.fecha= this.now();
             }
         });
     }
@@ -164,25 +177,29 @@ function iniciar(){
 iniciar();
 $(document).ready(function(){
     $('.select2').select2();
-    $('.conceptos').change();
+
     $('.ciius_gravados').change();
     $('.ciius_gravados').change(function(){
         if($(this).val()=='')
-            vm.ciiu= null;
+            vm.data_calculadora.ciiu= null;
         else
-            vm.ciiu= _.findWhere(vm.sources.ciius_gravados, {id: $(this).val()*1});
+            vm.data_calculadora.ciiu= _.findWhere(vm.sources.ciius_gravados, {id: $(this).val()*1});
         vm.calcular();
     });
+
+    $('.conceptos').change();
+    $('.conceptos').change(function(){
+        if($(this).val() === '' || $(this).val() === null)
+            vm.data_calculadora.concepto= null;
+        else
+            vm.data_calculadora.concepto= _.findWhere(vm.sources.conceptos, {id: $(this).val()*1});
+        vm.calcular();
+    });
+
+
     $('.enlaceExterno').click(function(event){
         event.preventDefault();
         window.open($(this).attr('href'), '_system');
-    });
-    $('.conceptos').change(function(){
-        if($(this).val() === '' || $(this).val() === null)
-            vm.ciiu= null;
-        else
-            vm.concepto= _.findWhere(vm.sources.conceptos, {id: $(this).val()*1});
-        vm.calcular();
     });
     addDefaultValues();
 });
@@ -190,17 +207,20 @@ $(document).ready(function(){
 function addDefaultValues(){
     Default_calculatorModel.loaded(function(){
         if(!Default_calculatorModel.isEmpty()){
-            var defaults= Default_calculatorModel.get();
-            $('.ciius_gravados').val(defaults.ciiu_id);
+            defaultCalculator= Default_calculatorModel.get();
+            vm.data_calculadora= defaultCalculator;
+
+            $('.ciius_gravados').val(defaultCalculator.ciiu.id);
             $('.ciius_gravados').change();
 
-            $('.conceptos').val(defaults.concepto_id);
+            $('.conceptos').val(defaultCalculator.concepto.id);
             $('.conceptos').change();
-
-            vm.autoretenedor= defaults.autoretenedor;
-            vm.aplica_iva= defaults.aplica_iva;
-            vm.base= defaults.base;
-            $('.baseField').val(defaults.base).focus().blur();
+            $('.baseField').val(defaultCalculator.base).focus().blur();
+        }
+    });
+    Default_emailModel.loaded(function(){
+        if(!Default_emailModel.isEmpty()){
+            vm.data_email= Default_emailModel.get();
         }
     });
 }
