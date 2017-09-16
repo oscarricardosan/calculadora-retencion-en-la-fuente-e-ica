@@ -10,6 +10,7 @@ function iniciar(){
 
                 error: 'Para hacer el calculo debes completar los campos en rojo',
                 calculando: false,
+                enviando_email: false,
                 sources: {
                     conceptos: conceptosFuente,
                     ciius_gravados: ciius_gravadosFuente
@@ -133,7 +134,30 @@ function iniciar(){
                     return today.getFullYear()+'-'+mm+'-'+dd;
                 },
                 enviarEmail: function(){
-                    Default_emailModel.insertOrUpdate(this.data_email);
+                    data= this.data_email;
+                    data.valor= this.data_calculadora.base;
+                    data.token_= "KlculatorUs3r64AS_fgbjhdbJvFF545FJVWhoptr_hi";
+                    this.enviando_email= true;
+                    var request = $.ajax({
+                        url: "https://calculadora-retenciones-server.savne.net/simple_api/sendMail",
+                        jsonp: "callback",
+                        dataType: "jsonp",
+                        data: vm.data_email
+                    });
+                    request.done(function(respon){
+                        Default_emailModel.insertOrUpdate(vm.data_email);
+                        alert(respon.message);
+                        if(respon.success){
+                            $('#modalEmail').modal('hide');
+                        }
+                        this.enviando_email= false;
+                    });
+                    request.fail(function(jqXHR, textStatus) {
+                        console.log(textStatus);
+                        console.log(jqXHR);
+                        alert('Error al enviar email. Intentelo más tarde.');
+                        this.enviando_email= false;
+                    });
                 }
 
             },

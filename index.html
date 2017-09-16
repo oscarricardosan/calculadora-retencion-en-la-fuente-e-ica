@@ -347,7 +347,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Información para enviar email</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" v-if="!enviando_email">
                         <div class="form-group">
                             <label>Tu email:</label>
                             <input type="email" class="form-control" placeholder="tu_email@dominio.com" v-model="data_email.email">
@@ -366,8 +366,13 @@
 
                         <div class="form-group">
                             <label>Servicio(s) prestado(s):</label>
-                            <template v-for="servicio in data_email.servicios_prestados" >
-                                <input type="text" class="form-control" v-model="servicio">
+                            <template v-if="data_email.servicios_prestados.length>0">
+                                <template v-for="servicio in data_email.servicios_prestados" >
+                                    <input type="text" class="form-control" v-model="servicio">
+                                </template>
+                            </template>
+                            <template v-else>
+                                <input type="text" class="form-control" v-model="data_email.servicios_prestados[0]">
                             </template>
                         </div>
                         <h3>Información de tu cliente</h3>
@@ -399,6 +404,10 @@
                             <textarea class="form-control" rows="5" v-model="data_email.leyenda_al_final"></textarea>
                         </div>
 
+                    </div>
+                    <div class="modal-body" v-else>
+                        <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
+                        <span>Un momento por favor, estamos enviando tu email...</span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
