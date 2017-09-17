@@ -1,7 +1,7 @@
 
-var Default_calculatorModel= (function () {
+var Default_emailModel= (function () {
 
-    var collection_name= 'default_calculator';
+    var collection_name= 'default_email';
 
     var loaded_Callback= function(){};
     var isLoaded= false;
@@ -12,7 +12,6 @@ var Default_calculatorModel= (function () {
     db.collection(collection_name, {capped: true, size: 1}).load(function (err, tableStats, metaStats) {
         if (!err) {
             loaded_Callback();
-            isLoaded= true;
         }else{
             alert('Error al cargar colección '+collection_name)
         }

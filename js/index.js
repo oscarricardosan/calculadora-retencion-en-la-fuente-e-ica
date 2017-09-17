@@ -305,7 +305,6 @@ function addDefaultValues(){
         if(!HistoryModel.isEmpty()){
             vm.history= HistoryModel.get();
         }
-
     });
 }
 
