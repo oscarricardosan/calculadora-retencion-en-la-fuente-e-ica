@@ -23,8 +23,12 @@
 
     <icon src="images/icon.png" />
 
+    <access origin="calculadora-retenciones-server.savne.net" />
+    <allow-intent href="calculadora-retenciones-server.savne.net" />
+    <allow-navigation href="calculadora-retenciones-server.savne.net" subdomains="true" />
+
     <access origin="*" />
     <allow-intent href="*" />
-    <allow-navigation href="*" />
+    <allow-navigation href="*" subdomains="true" />
 
 </widget>
