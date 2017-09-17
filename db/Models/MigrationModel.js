@@ -11,6 +11,7 @@ var MigrationModel= (function () {
     db.collection(collection_name).load(function (err, tableStats, metaStats) {
         if (!err) {
             loaded_Callback();
+            isLoaded= true;
         }else{
             alert('Error al cargar colección '+collection_name)
         }

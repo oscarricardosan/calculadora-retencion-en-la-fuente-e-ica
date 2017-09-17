@@ -1,4 +1,3 @@
-
 var Default_calculatorModel= (function () {
 
     var collection_name= 'default_calculator';

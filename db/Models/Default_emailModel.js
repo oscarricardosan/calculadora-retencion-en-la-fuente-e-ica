@@ -1,4 +1,3 @@
-
 var Default_emailModel= (function () {
 
     var collection_name= 'default_email';
@@ -12,6 +11,7 @@ var Default_emailModel= (function () {
     db.collection(collection_name, {capped: true, size: 1}).load(function (err, tableStats, metaStats) {
         if (!err) {
             loaded_Callback();
+            isLoaded= true;
         }else{
             alert('Error al cargar colección '+collection_name)
         }
