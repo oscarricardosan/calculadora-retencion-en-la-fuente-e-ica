@@ -174,7 +174,7 @@ function iniciar(){
                         }
                     });
                     request.fail(function(jqXHR, textStatus) {
-                        alert('Error al enviar email. Intentelo más tarde.');
+                        alert('Error al enviar email. Intentelo más tarde. '+textStatus);
                         vm.enviando_email= false;
                     });
                 },

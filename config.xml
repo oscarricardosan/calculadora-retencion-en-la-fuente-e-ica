@@ -22,4 +22,9 @@
     <preference name="fullscreen" value="true" />
 
     <icon src="images/icon.png" />
+
+    <access origin="*" />
+    <allow-intent href="*" />
+    <allow-navigation href="*" />
+
 </widget>
