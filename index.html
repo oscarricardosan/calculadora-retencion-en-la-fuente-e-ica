@@ -411,7 +411,7 @@
                         </div>
                         <h3>Tu informacion</h3>
                         <div class="form-group has-feedback">
-                            <label>Tu nombre:</label>
+                            <label>Tus nombres y apellidos:</label>
                             <input type="text" class="form-control" placeholder="" v-model="data_email.usuario.nombre" required>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block with-errors"></div>
@@ -446,7 +446,7 @@
                         <span>Un momento por favor, estamos enviando tu email...</span>
                     </div>
 
-                    <div class="modal-footer">
+                    <div class="modal-footer" style="padding-bottom: 15em;">
                         <template v-if="!enviando_email">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Enviar</button>
