@@ -275,6 +275,7 @@ $(document).ready(function(){
         event.preventDefault();
         window.open($(this).attr('href'), '_system');
     });
+
     addDefaultValues();
 });
 
@@ -304,6 +305,7 @@ function addDefaultValues(){
         if(!HistoryModel.isEmpty()){
             vm.history= HistoryModel.get();
         }
+
     });
 }
 
