@@ -171,9 +171,9 @@ function iniciar(){
                                 fecha: vm.now_with_time()
                             });
                             $('#modalEmail').modal('hide');
-                            vm.enviando_email= false;
                             vm.history= HistoryModel.get();
                         }
+                        vm.enviando_email= false;
                     });
                     request.fail(function(jqXHR, textStatus) {
                         var msg = '';
