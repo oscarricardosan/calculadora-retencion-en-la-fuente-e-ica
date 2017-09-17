@@ -174,9 +174,23 @@ function iniciar(){
                         }
                     });
                     request.fail(function(jqXHR, textStatus) {
-                        var err = eval("(" + jqXHR.responseText + ")");
-                        alert(err.Message);
-                        alert('Error al enviar email. Intentelo más tarde. '+textStatus);
+                        var msg = '';
+                        if (jqXHR.status === 0) {
+                            msg = 'Not connect.\n Verify Network.';
+                        } else if (jqXHR.status == 404) {
+                            msg = 'Requested page not found. [404]';
+                        } else if (jqXHR.status == 500) {
+                            msg = 'Internal Server Error [500].';
+                        } else if (exception === 'parsererror') {
+                            msg = 'Requested JSON parse failed.';
+                        } else if (exception === 'timeout') {
+                            msg = 'Time out error.';
+                        } else if (exception === 'abort') {
+                            msg = 'Ajax request aborted.';
+                        } else {
+                            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        }
+                        alert("Error al enviar email. Intentelo más tarde. \n\n"+msg);
                         vm.enviando_email= false;
                     });
                 },
