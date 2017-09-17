@@ -14,6 +14,7 @@
     <script type="application/javascript" src="db/Models/MigrationModel.js"></script>
     <script type="application/javascript" src="db/Models/Default_calculatorModel.js"></script>
     <script type="application/javascript" src="db/Models/Default_emailModel.js"></script>
+    <script type="application/javascript" src="db/Models/HistoryModel.js"></script>
     <script type="application/javascript" src="db/run_migrations.js"></script>
 
     <!-- VUE -->
@@ -158,6 +159,12 @@
                     <li class="active">
                         <a href="index.html"><span class="fa-stack fa-lg pull-left">
                             <i class="fa fa-calculator fa-stack-1x "></i></span>Calculadora
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" v-on:click.prevent data-toggle="modal" data-target="#modalHistory">
+                            <span class="fa-stack fa-lg pull-left">
+                            <i class="fa fa-history fa-stack-1x "></i></span>Calculos enviados por email
                         </a>
                     </li>
                     <li>
@@ -342,66 +349,95 @@
         <!-- MODALS -->
         <div class="modal fade" id="modalEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
+                <form data-toggle="validator" v-on:submit.prevent="enviarEmail">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Información para enviar email</h4>
                     </div>
                     <div class="modal-body" v-if="!enviando_email">
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Tu email:</label>
-                            <input type="email" class="form-control" placeholder="tu_email@dominio.com" v-model="data_email.email">
+                            <input type="email" class="form-control" placeholder="tu_email@dominio.com" v-model="data_email.email" required>
                             <p class="help-block">
                                 A este email se enviará la cuenta de cobro
                             </p>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Fecha:</label>
-                            <input type="date" class="form-control" v-model="data_email.fecha">
+                            <input type="date" class="form-control" v-model="data_email.fecha" required>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Ciudad:</label>
-                            <input type="text" class="form-control" v-model="data_email.ciudad">
+                            <input type="text" class="form-control" v-model="data_email.ciudad" required>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Servicio(s) prestado(s):</label>
-                            <template v-if="data_email.servicios_prestados.length>0">
-                                <template v-for="servicio in data_email.servicios_prestados" >
-                                    <input type="text" class="form-control" v-model="servicio">
-                                </template>
+                            <template v-for="servicio in data_email.servicios_prestados" >
+                                <input type="text" class="form-control" v-model="servicio.nombre">
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                <div class="help-block with-errors"></div>
+                                <div style="text-align: right">
+                                    <a href="#" v-on:click.prevent="retirarServicio(servicio)">
+                                        <i style="color: darkred" class="fa fa-trash"></i> Retirar
+                                    </a>
+                                </div>
                             </template>
-                            <template v-else>
-                                <input type="text" class="form-control" v-model="data_email.servicios_prestados[0]">
-                            </template>
+                            <div style="text-align: center">
+                                <a href="#" v-on:click.prevent="agregarServicio">
+                                    <i class="fa fa-plus"></i> Agregar Servicio
+                                </a>
+                            </div>
                         </div>
                         <h3>Información de tu cliente</h3>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Su nombre:</label>
-                            <input type="text" class="form-control" placeholder="Empresa Z" v-model="data_email.cliente.nombre">
+                            <input type="text" class="form-control" placeholder="Empresa Z" v-model="data_email.cliente.nombre" required>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Su identificación:</label>
-                            <input type="text" class="form-control" placeholder="NIT 00000000-0" v-model="data_email.cliente.identificacion">
+                            <input type="text" class="form-control" placeholder="Nit. 00000000-0" v-model="data_email.cliente.identificacion">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
                         <h3>Tu informacion</h3>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Tu nombre:</label>
-                            <input type="text" class="form-control" placeholder="" v-model="data_email.usuario.nombre">
+                            <input type="text" class="form-control" placeholder="" v-model="data_email.usuario.nombre" required>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Tu documento de identidad:</label>
-                            <input type="text" class="form-control" placeholder="CC 000000" v-model="data_email.usuario.identificacion">
+                            <input type="text" class="form-control" placeholder="CC 000000" v-model="data_email.usuario.identificacion" required>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label>Tu número de teléfono:</label>
                             <input type="text" class="form-control" placeholder="300 00 000" v-model="data_email.usuario.telefono">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
 
                         <hr/>
-                        <div class="form-group">
-                            <label>Leyenda al final de la cuenta de cobro:</label>
-                            <textarea class="form-control" rows="5" v-model="data_email.leyenda_al_final"></textarea>
+                        <div class="form-group has-feedback">
+                            <label>Texto al final de la cuenta de cobro:</label>
+                            <textarea
+                                    class="form-control" rows="5" v-model="data_email.leyenda_al_final"
+                                    placeholder="Observaciones que coincideres importantes ejemplo: número de cuenta bancaria..."
+                            ></textarea>
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <div class="help-block with-errors"></div>
                         </div>
 
                     </div>
@@ -409,9 +445,53 @@
                         <i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>
                         <span>Un momento por favor, estamos enviando tu email...</span>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" v-on:click.prevent="enviarEmail">Enviar</button>
+                        <template v-if="!enviando_email">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </template>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalHistory" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Historial <small>Limite 100 peticiones</small></h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Fecha registro</th>
+                                <th>Valor cobro</th>
+                                <th>Email</th>
+                                <th>Cliente</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="registro in history">
+                                <td>{{ registro.fecha }}</td>
+                                <td>{{ registro.data_calculadora.base | formatMoney }}</td>
+                                <td>{{ registro.data_email.email }}</td>
+                                <td>{{ registro.data_email.cliente.nombre }}</td>
+                                <td>
+                                    <a href="#" v-on:click.prevent="cagarDesdeHistorial(registro)">
+                                        Cargar <i class="fa fa-share"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
                     </div>
                 </div>
             </div>

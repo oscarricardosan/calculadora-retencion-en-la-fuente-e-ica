@@ -26,7 +26,7 @@ function iniciar(){
                     email: null,
                     fecha: null,
                     ciudad: null,
-                    servicios_prestados: [],
+                    servicios_prestados: [{nombre: ''}],
                     leyenda_al_final: [],
                     cliente: {
                         nombre: null,
@@ -38,6 +38,7 @@ function iniciar(){
                         telefono: null,
                     },
                 },
+                history: [],
                 porcentaje_iva: 19,
                 valor_iva: 0,
                 valor_cobro: 0,
@@ -133,6 +134,20 @@ function iniciar(){
                     if(mm<10) mm = '0'+mm;
                     return today.getFullYear()+'-'+mm+'-'+dd;
                 },
+                now_with_time: function(){
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    var HH = today.getHours(); //January is 0!
+                    var mi = today.getMinutes(); //January is 0!
+                    var ss = today.getSeconds(); //January is 0!
+                    if(dd<10) dd = '0'+dd;
+                    if(mm<10) mm = '0'+mm;
+                    if(HH<10) HH = '0'+HH;
+                    if(mi<10) mi = '0'+mi;
+                    if(ss<10) ss = '0'+ss;
+                    return today.getFullYear()+'-'+mm+'-'+dd+' '+HH+':'+mi+':'+ss;
+                },
                 enviarEmail: function(){
                     data= this.data_email;
                     data.valor= this.data_calculadora.base;
@@ -145,19 +160,36 @@ function iniciar(){
                         data: vm.data_email
                     });
                     request.done(function(respon){
-                        Default_emailModel.insertOrUpdate(vm.data_email);
                         alert(respon.message);
                         if(respon.success){
+                            Default_emailModel.insertOrUpdate(vm.data_email);
+                            HistoryModel.store({
+                                data_email: vm.data_email,
+                                data_calculadora: vm.data_calculadora,
+                                fecha: vm.now_with_time()
+                            });
                             $('#modalEmail').modal('hide');
+                            vm.enviando_email= false;
+                            vm.history= HistoryModel.get();
                         }
-                        this.enviando_email= false;
                     });
                     request.fail(function(jqXHR, textStatus) {
-                        console.log(textStatus);
-                        console.log(jqXHR);
                         alert('Error al enviar email. Intentelo más tarde.');
-                        this.enviando_email= false;
+                        vm.enviando_email= false;
                     });
+                },
+                agregarServicio: function(){
+                    this.data_email.servicios_prestados.push({nombre: ''});
+                },
+                retirarServicio: function(servicio){
+                    this.data_email.servicios_prestados.splice(
+                        this.data_email.servicios_prestados.indexOf(servicio), 1
+                    );
+                },
+                cagarDesdeHistorial: function(registro){
+                    this.data_email= registro.data_email;
+                    this.data_calculadora= registro.data_calculadora;
+                    $('#modalHistory').modal('hide');
                 }
 
             },
@@ -246,6 +278,13 @@ function addDefaultValues(){
     Default_emailModel.loaded(function(){
         if(!Default_emailModel.isEmpty()){
             vm.data_email= Default_emailModel.get();
+            window.setTimeout(function(){$('#modalEmail *').blur();}, 500);
+            window.setTimeout(function(){$('#modalEmail *').blur();}, 1000);
+        }
+    });
+    HistoryModel.loaded(function(){
+        if(!HistoryModel.isEmpty()){
+            vm.history= HistoryModel.get();
         }
     });
 }
