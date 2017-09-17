@@ -157,7 +157,9 @@ function iniciar(){
                         url: "https://calculadora-retenciones-server.savne.net/simple_api/sendMail",
                         jsonp: "callback",
                         dataType: "jsonp",
-                        data: vm.data_email
+                        contentType: "application/json",
+                        data: vm.data_email,
+                        crossDomain: true
                     });
                     request.done(function(respon){
                         alert(respon.message);

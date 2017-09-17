@@ -17,14 +17,21 @@
 
     <gap:platform name="android" />
     <plugin spec="https://github.com/apache/cordova-plugin-inappbrowser" source="git"/>
+    <plugin spec="https://github.com/apache/cordova-plugin-whitelist" source="git"/>
 
     <preference name="orientation" value="default" />
     <preference name="fullscreen" value="true" />
 
     <icon src="images/icon.png" />
 
-    <access origin="calculadora-retenciones-server.savne.net" />
-    <allow-intent href="calculadora-retenciones-server.savne.net" />
+
+
+    <allow-navigation href="https://calculadora-retenciones-server.savne.net/*" />
+    <allow-navigation href="*" />
+
+
+    <access origin="https://calculadora-retenciones-server.savne.net" />
+    <allow-intent href="https://calculadora-retenciones-server.savne.net" />
     <allow-navigation href="calculadora-retenciones-server.savne.net" subdomains="true" />
 
     <access origin="*" />

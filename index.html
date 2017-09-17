@@ -6,6 +6,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' calculadora-retenciones.savne.net">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src 'self' https://calculadora-retenciones.savne.net">
+
+
+
+
     <title>Calculadora</title>
 
     <!-- ForerunNerdb -->
@@ -446,7 +454,7 @@
                         <span>Un momento por favor, estamos enviando tu email...</span>
                     </div>
 
-                    <div class="modal-footer" style="padding-bottom: 25em;">
+                    <div class="modal-footer" style="padding-bottom: 40em;">
                         <template v-if="!enviando_email">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Enviar</button>
