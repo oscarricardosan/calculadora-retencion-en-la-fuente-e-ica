@@ -471,18 +471,21 @@
                         <table class="table table-striped" style="width: 100%;">
                             <thead>
                             <tr>
-                                <th>Fecha</th>
+                                <th>Cliente</th>
                                 <th>Valor cobro</th>
                             </tr>
                             </thead>
                             <tbody>
                             <template v-for="registro in history">
                                 <tr>
-                                    <td>{{ registro.fecha }}</td>
+                                    <td>{{ registro.data_email.cliente.nombre }}</td>
                                     <td style="text-align: right">{{ registro.data_calculadora.base | formatMoney }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="text-align: right">
+                                    <td>
+                                        {{ registro.fecha }}
+                                    </td>
+                                    <td style="text-align: left">
                                         <a href="#" v-on:click.prevent="cagarDesdeHistorial(registro)">
                                             Cargar <i class="fa fa-share"></i>
                                         </a>
