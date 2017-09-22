@@ -3,8 +3,8 @@
 <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "osg.calculadora.retencionfuente_e_ica"
-        versionCode = "4"
-        version     = "1.1.11"
+        versionCode = "5"
+        version     = "1.1.12"
 >
     <!-- versionCode es un atributo opcional
 		 y solo es utilizado por Android -->

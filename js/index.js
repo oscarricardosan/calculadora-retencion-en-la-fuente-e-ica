@@ -240,7 +240,6 @@ function iniciar(){
                         decimal : ","
                     }
                 };
-                this.data_email.fecha= this.now();
             }
         });
     }
@@ -299,6 +298,7 @@ function addDefaultValues(){
             vm.data_email= Default_emailModel.get();
             window.setTimeout(function(){$('#modalEmail *').blur();}, 500);
             window.setTimeout(function(){$('#modalEmail *').blur();}, 1000);
+            vm.data_email.fecha= vm.now();
         }
     });
     HistoryModel.loaded(function(){
