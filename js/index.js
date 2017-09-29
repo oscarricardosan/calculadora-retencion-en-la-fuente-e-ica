@@ -45,7 +45,9 @@ function iniciar(){
                 valor_a_pagar: 0,
                 valor_retencion_ica: 0,
                 valor_base_con_retenciones_aplicadas: 0,
-                valor_retencion_fuente: 0,
+                valor_retencion_fuente: 0
+            },
+            methods:{
                 calcular: function() {
                     this.data_calculadora.base= accounting.toFixed(this.data_calculadora.base, 0)*1;
                     if(this.validateData()===false) return false;
@@ -208,6 +210,11 @@ function iniciar(){
                     this.data_email= registro.data_email;
                     this.data_calculadora= registro.data_calculadora;
                     $('#modalHistory').modal('hide');
+                },
+                dropDB: function(){
+                    db.drop();
+                    alert('Registros eliminados.');
+                    window.location.reload();
                 }
 
             },
@@ -298,8 +305,8 @@ function addDefaultValues(){
             vm.data_email= Default_emailModel.get();
             window.setTimeout(function(){$('#modalEmail *').blur();}, 500);
             window.setTimeout(function(){$('#modalEmail *').blur();}, 1000);
-            vm.data_email.fecha= vm.now();
         }
+        vm.data_email.fecha= vm.now();
     });
     HistoryModel.loaded(function(){
         if(!HistoryModel.isEmpty()){

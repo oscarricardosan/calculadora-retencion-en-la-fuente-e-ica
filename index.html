@@ -317,6 +317,12 @@
                                     </div>
                                 </transition>
                             </div>
+                            <div class="col-sm-12" style="text-align: center; padding-top: 0em; padding-bottom: 0em;">
+                                <button v-on:click.prevent="dropDB" class="btn btn-danger btn-flat" style="background: darkred">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                    Borrar cotizaciones guardadas en este dispositivo
+                                </button>
+                            </div>
                             <div class="col-sm-12" style="text-align: center; padding-top: 0em; padding-bottom: 10em">
                                 <hr/>
                                 <div class="col-sm-4" style="text-align: center; padding-bottom: 2em;">
@@ -503,7 +509,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="js/index.js?5"></script>
+    <script type="text/javascript" src="js/index.js?6"></script>
 
     <!-- MENU -->
     <script type="text/javascript" src="js/menu.js"></script>
