@@ -282,6 +282,8 @@ $(document).ready(function(){
         window.open($(this).attr('href'), '_system');
     });
 
+    $('.modalConAnuncio').modal('show');
+
     addDefaultValues();
 });
 
