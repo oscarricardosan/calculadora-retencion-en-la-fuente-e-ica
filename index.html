@@ -128,6 +128,10 @@
             color: rgb(2, 171, 174);
             text-align: center;
         }
+
+        *{
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -329,6 +333,9 @@
                                     <img src="images/savne_net.png" style="height: 50px"><br>
                                     Desarrollada por
                                     <a :href="url_savne">www.savne.net</a>
+                                    <br>
+                                    En alianza con <br>
+                                    <a href="mail:contabilidad@agasesoriascontables.com">contabilidad@agasesoriascontables.com</a>
                                 </div>
                                 <div class="col-sm-4" style="text-align: center; padding-bottom: 2em;">
                                     <a :href="url_apk_android">
@@ -509,7 +516,7 @@
         </div>
     </div>
 
-    <div class="modal fade modalConAnuncio" tabindex="-1" role="dialog" data-show="true">
+    <div class="modal fade modalConAnuncio modalConAnuncio_1" tabindex="-1" role="dialog" data-show="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -525,10 +532,167 @@
                         (sistemas de información, aplicaciones móviles, correo electrónico corporativo...)<br>
                         no dudes en escribirnos a <br>
                         <h4 style="text-align: center">
-                            <a href="mail:asesor_contable@savne.net">asesor_contable@savne.net</a>
+                            <a href="mail:contabilidad@agasesoriascontables.com">contabilidad@agasesoriascontables.com</a>
                         </h4>
                         <h4 style="text-align: center">
                             <a href="mail:asesor_tecnologico@savne.net">asesor_tecnologico@savne.net</a>
+                        </h4>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade modalConAnuncio modalConAnuncio_2" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Aún usas gmail o hotmail?</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center">
+                        <img src="images/email.png" width="150px"/>
+                    </div>
+                    <p style="text-align: center; padding-top: 1em;">
+                        Tener tu propio correo corporativo proyecta confianza,
+                        seguridad y seriedad ante clientes y proveedores. <br>
+                        Para más información escríbenos a <br>
+                        <h4 style="text-align: center">
+                            <a href="mail:asesor_tecnologico@savne.net">asesor_tecnologico@savne.net</a>
+                        </h4>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade modalConAnuncio modalConAnuncio_3" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Quieres tu propia calculadora o aplicación móvil?</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center">
+                        <img src="images/mobil.png" width="200px"/>
+                    </div>
+                    <p style="text-align: center; padding-top: 1em;">
+                        Convierte tu celular en tu herramienta de trabajo en el día a día<br>
+                        Escríbenos a:<br>
+                        <h4 style="text-align: center">
+                            <a href="mail:asesor_tecnologico@savne.net">asesor_tecnologico@savne.net</a>
+                        </h4>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade modalConAnuncio modalConAnuncio_4" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear empresa</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center">
+                        <img src="images/company.png" style="width: 80%"/>
+                    </div>
+                    <p style="text-align: center; padding-top: 1em;">
+                        Deseas crear una empresa y no sabes por donde empezar?<br>
+                        Escríbenos a <br>
+                    <h4 style="text-align: center">
+                        <a href="mail:contabilidad@agasesoriascontables.com">contabilidad@agasesoriascontables.com</a>
+                    </h4>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade modalConAnuncio modalConAnuncio_5" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Problemas con tu declaración de renta?</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center">
+                        <img src="images/declaracion_renta.jpg" style="width: 80%"/>
+                    </div>
+                    <p style="text-align: center; padding-top: 1em;">
+                        Nosotros te ayudamos para que te pongas al día en tu declaración de renta.<br>
+                        Para saber como escríbenos a:<br>
+                        <h4 style="text-align: center">
+                            <a href="mail:contabilidad@agasesoriascontables.com">contabilidad@agasesoriascontables.com</a>
+                        </h4>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade modalConAnuncio modalConAnuncio_6" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Cansado de procesos repetitivos y aburridos?</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center">
+                        <img src="images/sistema_info.jpg" style="width: 80%"/>
+                    </div>
+                    <p style="text-align: center; padding-top: 1em;">
+                        Es hora que sistematices procesos y tengas tu propio sistema de información.<br>
+                        Para saber más escríbenos a:<br>
+                        <h4 style="text-align: center">
+                            <a href="mail:asesor_tecnologico@savne.net">asesor_tecnologico@savne.net</a>
+                        </h4>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Continuar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal fade modalConAnuncio modalConAnuncio_7" tabindex="-1" role="dialog" data-show="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Consejo</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align: center">
+                        <img src="images/security_money.png" width="200px"/>
+                    </div>
+                    <p style="text-align: center; padding-top: 1em;">
+                        Cuida tus finanzas llevando tus cuentas claras.
+                        <h4 style="text-align: center">
+                            <a href="mail:contabilidad@agasesoriascontables.com">contabilidad@agasesoriascontables.com</a>
                         </h4>
                     </p>
                 </div>
