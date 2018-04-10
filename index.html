@@ -372,7 +372,7 @@
                     </div>
                     <div class="modal-body" v-if="!enviando_email">
                         <div class="form-group has-feedback">
-                            <label>Tu emailto:</label>
+                            <label>Email:</label>
                             <input type="email" class="form-control" placeholder="tu_email@dominio.com" v-model="data_email.email" required>
                             <p class="help-block">
                                 A este email se enviará la cuenta de cobro
@@ -381,7 +381,7 @@
                             <div class="help-block with-errors"></div>
                         </div>
                         <div class="form-group has-feedback">
-                            <label>Fecha:</label>
+                            <label>Fecha de la cuenta de cobro:</label>
                             <input type="date" class="form-control" v-model="data_email.fecha" required>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block with-errors"></div>
@@ -415,13 +415,16 @@
                         </div>
                         <h3>Información de tu cliente</h3>
                         <div class="form-group has-feedback">
-                            <label>Su nombre:</label>
+                            <label>Nombre Cliente:</label>
                             <input type="text" class="form-control" placeholder="Empresa Z" v-model="data_email.cliente.nombre" required>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block with-errors"></div>
                         </div>
                         <div class="form-group has-feedback">
-                            <label>Su identificación:</label>
+                            <label>Tipo y número de identificación Cliente:</label>
+                            <p class="help-block">
+                                No olvides especificar al inicio si es NIT, CC, CE ...
+                            </p>
                             <input type="text" class="form-control" placeholder="Nit. 00000000-0" v-model="data_email.cliente.identificacion">
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block with-errors"></div>
@@ -450,8 +453,8 @@
                         <div class="form-group has-feedback">
                             <label>Texto al final de la cuenta de cobro:</label>
                             <textarea
-                                    class="form-control" rows="5" v-model="data_email.leyenda_al_final"
-                                    placeholder="Observaciones que coincideres importantes ejemplo: número de cuenta bancaria..."
+                                class="form-control" rows="5" v-model="data_email.leyenda_al_final"
+                                placeholder="Observaciones que coincideres importantes ejemplo: número de cuenta bancaria..."
                             ></textarea>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block with-errors"></div>
