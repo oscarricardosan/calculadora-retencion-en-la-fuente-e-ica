@@ -93,7 +93,7 @@ var ciius_gravadosFuente= [
     {id:91 ,codigo_ciiu_219:"2511" ,codigo_ciiu_0079:"2211", label: "Fabricación de llantas y neumáticos de caucho", tarifa: 11.04},
     {id:92 ,codigo_ciiu_219:"2512" ,codigo_ciiu_0079:"2212", label: "Reencauche de llantas usadas", tarifa: 11.04},
     {id:93 ,codigo_ciiu_219:"2513" ,codigo_ciiu_0079:"2219", label: "Fabricación de formas básicas de caucho y otros productos de caucho n.c.p.", tarifa: 11.04},
-    {id:94 ,codigo_ciiu_219:"2519" ,codigo_ciiu_0079:"2219", label: "Fabricación de formas básicas de caucho y otros productos de caucho n.c.p.", tarifa: },
+    {id:94 ,codigo_ciiu_219:"2519" ,codigo_ciiu_0079:"2219", label: "Fabricación de formas básicas de caucho y otros productos de caucho n.c.p.", tarifa: 11.04},
     {id:95 ,codigo_ciiu_219:"2521" ,codigo_ciiu_0079:"2221", label: "Fabricación de formas básicas de plástico", tarifa: 11.04},
     {id:96 ,codigo_ciiu_219:"2529" ,codigo_ciiu_0079:"2229", label: "Fabricación de artículos de plástico n.c.p.", tarifa: 11.04},
     {id:97 ,codigo_ciiu_219:"2610" ,codigo_ciiu_0079:"2310", label: "Fabricación de vidrio y productos de vidrio", tarifa: 11.04},
