@@ -33,6 +33,7 @@
     <plugin spec="https://github.com/apache/cordova-plugin-whitelist" source="git"/>
     <engine name="android" spec="^7.1.1" />
 
+    <preference name="phonegap-version" value="cli-8.0.0" />
     <preference name="orientation" value="default" />
     <preference name="fullscreen" value="false" />
 
